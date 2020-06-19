@@ -1,5 +1,17 @@
+@import '~antd/dist/antd.css';
 .App {
-  text-align: center;
+  /* text-align: center; */
+  padding: 2vmin
+}
+.ant-card-head-title {
+  white-space: normal
+}
+
+.ant-radio-wrapper {
+  white-space: normal
+}
+.ant-radio-wrapper:ast-child {
+  height: auto;
 }
 
 .App-logo {
@@ -14,7 +26,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
