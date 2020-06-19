@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import DATA from './data.json'
 import { Button, Radio, Cascader, Checkbox, Form, Input, Result, Layout, Row } from 'antd';
@@ -118,6 +118,10 @@ function BaseInfoCard(props) {
 function App() {
   // const [showAnswer, setShow] = useState(false)
   const [useInfo, setUserInfo] = useState({})
+
+  useEffect(() => {
+     fetch(`/questionnaireTemplates?`).then(console.log)
+  },[])
   const [step, setStep] = useState(2)
   let Component = BaseInfoCard
   switch (step) {
