@@ -1,7 +1,7 @@
 {
   "name": "react_quest",
   "version": "0.1.0",
-  "proxy": "http://localhost:1234/api/",
+  "proxy": "http://localhost:1234/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
