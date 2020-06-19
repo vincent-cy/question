@@ -1,7 +1,6 @@
 {
   "name": "react_quest",
   "version": "0.1.0",
-  "homepage": "https://github.com/vincent-cy/question.git",
   "proxy": "http://localhost:1234/api/",
   "private": true,
   "dependencies": {
