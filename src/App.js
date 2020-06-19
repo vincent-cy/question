@@ -17,7 +17,7 @@ function QuestionCard(props) {
     setLoading(true)
     axios({
       method: 'post',
-      url: '/api/a/answer',
+      url: 'http://http://101.200.182.153:3000/api/a/answer',
       data: {
         ...props.useInfo,
         answer: values
