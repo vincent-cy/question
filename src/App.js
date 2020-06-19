@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import DATA from './data.json'
-import { Button, Radio, Cascader, Checkbox, Form, Input, Result, Layout, Row } from 'antd';
+import axios from 'axios'
+import { Button, Radio, Cascader,Spin, Checkbox, Form, Input, Result, message, Row } from 'antd';
 
 const radioStyle = {
   display: 'block',
@@ -11,9 +12,23 @@ const radioStyle = {
 
 function QuestionCard(props) {
   const { setStep } = props
+  const [loading, setLoading] = useState(false)
   const onFinish = values => {
-    setStep(2)
-    console.log('Received values of form:', values);
+    setLoading(true)
+    axios({
+      method: 'post',
+      url: '/a/answer',
+      data: {
+        ...props.useInfo,
+        answer: values
+      }
+    }).then(res=>{
+      setLoading(false)
+      setStep(2)
+    }).catch(err=>{
+      setLoading(false)
+      message.error('提交错误，请重新提交');
+    })
   };
 
   return <Form
@@ -26,7 +41,6 @@ function QuestionCard(props) {
   >
     {
       DATA.questions.map((item, index) => {
-        console.log('item', item)
         let type = ''
         switch (item.type) {
           case 1:
@@ -45,7 +59,7 @@ function QuestionCard(props) {
         }
         const title = `${index + 1}. ${type}${item.question}`
         return <Form.Item
-          name={index + 1}
+          name={`answer${index+1}`}
           key={item.question}
           label={title}
           rules={[{ required: true, message: `请完成${index + 1}的答案。` }]}
@@ -71,10 +85,11 @@ function QuestionCard(props) {
 
     }
     <Form.Item>
-      <Button type="primary" htmlType="submit"  >
+      <Button type="primary" htmlType="submit"   >
         提交答案
       </Button>
     </Form.Item>
+    <Spin spinning={loading} delay={500}></Spin>
   </Form>
 }
 
@@ -82,7 +97,7 @@ function BaseInfoCard(props) {
   const { setUserInfo, setStep } = props
   const onFinish = values => {
     setStep(1)
-    setUserInfo({ ...values, area: values.area.toString() })
+    setUserInfo({ ...values, address: values.address.toString() })
   };
   return <Form
     size="large"
@@ -98,11 +113,11 @@ function BaseInfoCard(props) {
       <Input />
     </Form.Item>
 
-    <Form.Item label="所在乡镇、社区" rules={[{ required: true, message: '请选择您的单位或地区！' }]} name="area">
+    <Form.Item label="所在乡镇、社区" rules={[{ required: true, message: '请选择您的单位或地区！' }]} name="address">
       <Cascader options={DATA.organization} />
     </Form.Item>
 
-    <Form.Item label="手机号码:" rules={[{ required: true, message: '请输入您的手机号码！' }]} name="phone">
+    <Form.Item label="手机号码:" rules={[{ required: true, message: '请输入您的手机号码！' }]} name="phoneNumber">
       <Input />
     </Form.Item>
 
@@ -118,11 +133,7 @@ function BaseInfoCard(props) {
 function App() {
   // const [showAnswer, setShow] = useState(false)
   const [useInfo, setUserInfo] = useState({})
-
-  useEffect(() => {
-     fetch(`/questionnaireTemplates?`).then(console.log)
-  },[])
-  const [step, setStep] = useState(2)
+  const [step, setStep] = useState(0)
   let Component = BaseInfoCard
   switch (step) {
     case 0:
