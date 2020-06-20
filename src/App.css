@@ -7,6 +7,10 @@
   white-space: normal
 }
 
+.ant-form-large .ant-form-item-label > label {
+  height: auto;
+}
+
 .ant-radio-wrapper {
   white-space: normal
 }
