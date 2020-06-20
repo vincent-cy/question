@@ -89,9 +89,11 @@ function QuestionCard(props) {
 
     }
     <Form.Item>
-      <Button type="primary" htmlType="submit"   >
-        提交答案
-      </Button>
+      <div style={{display:'flex', justifyContent: 'center'}}> 
+        <Button type="primary" htmlType="submit"   >
+          提交答案
+        </Button>
+      </div>
     </Form.Item>
     <Spin spinning={loading} delay={500}></Spin>
   </Form>
@@ -104,7 +106,7 @@ function BaseInfoCard(props) {
     setUserInfo({ ...values, address: values.address.toString() })
   };
   return <Layout>
-    <img alt='banner' width='100%' src={require('./slog.jpeg')} />
+    <img alt='banner' width='100%' src={'https://static.poogln.com/slog.fc43e174.jpeg'} />
     <Form
       size="large"
       onFinish={onFinish}
@@ -113,14 +115,18 @@ function BaseInfoCard(props) {
       }}
       layout="vertical"
     >
-      <div>基本信息</div>
+      <h1 style={{
+        height: 40,
+        paddingTop: 10,
+        color: '#1890ff'
+      }} >基本信息</h1>
       <Form.Item label="姓名"
         rules={[{ required: true, message: '请输入您的姓名！' }]} name="name">
-        <Input />
+        <Input placeholder="请输入姓名" maxLength={8} />
       </Form.Item>
 
       <Form.Item label="所在乡镇、社区" rules={[{ required: true, message: '请选择您的单位或地区！' }]} name="address">
-        <Cascader options={DATA.organization} />
+        <Cascader placeholder={'请选择'} options={DATA.organization} />
       </Form.Item>
 
       <Form.Item label="手机号码:" rules={[{
@@ -128,14 +134,16 @@ function BaseInfoCard(props) {
         pattern: /^1[3|4|5|7|8][0-9]\d{8}$/,
         message: '请输入正确的手机号码！'
       }]} name="phoneNumber">
-        <Input />
+        <Input placeholder="请输入手机号码" />
       </Form.Item>
 
 
       <Form.Item>
-        <Button type="primary" htmlType="submit"  >
-          开始答题
-      </Button>
+        <div style={{display:'flex', justifyContent: 'center'}}> 
+          <Button type="primary" htmlType="submit"  >
+              开始答题
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   </Layout>
