@@ -6,7 +6,9 @@ import {
   Button, Radio, Cascader, Spin, Layout,
   Checkbox, Form, Input, Col, Result, message, Row
 } from 'antd';
-const baseApi = process.env.NODE_ENV === "development" ? '/api' : 'http://101.200.182.153:3000/api'
+
+const isDev = process.env.NODE_ENV === "development"
+const baseApi = isDev ? '/api' : 'http://101.200.182.153:3000/api'
 
 const radioStyle = {
   display: 'block',
@@ -18,21 +20,26 @@ function QuestionCard(props) {
   const { setStep } = props
   const [loading, setLoading] = useState(false)
   const onFinish = values => {
+    if(loading) return 
     setLoading(true)
-    axios({
-      method: 'post',
-      url: `${baseApi}/a/answer`,
-      data: {
-        ...props.useInfo,
-        answer: values
-      }
-    }).then(res => {
+    console.log('props', props)
+    setTimeout(() => {
       setLoading(false)
-      setStep(2)
-    }).catch(err => {
-      setLoading(false)
-      message.error('提交错误，请重新提交');
-    })
+    },2000)
+    // axios({
+    //   method: 'post',
+    //   url: `${baseApi}/a/answer`,
+    //   data: {
+    //     ...props.useInfo,
+    //     answer: values
+    //   }
+    // }).then(res => {
+    //   setLoading(false)
+    //   setStep(2)
+    // }).catch(err => {
+    //   setLoading(false)
+    //   message.error('提交错误，请重新提交');
+    // })
   };
 
   return <Form
@@ -61,12 +68,12 @@ function QuestionCard(props) {
             type = '(单选题)'
             break;
         }
-        const title = `${index + 1}. ${type}${item.question} ${item.answer.toString()}`
+        const title = `${index + 1}. ${type}${item.question}`
         return <Form.Item
           name={`answer${index + 1}`}
           key={item.question}
           label={title}
-          rules={[{ required: true, message: `请完成${index + 1}的答案。` }]}
+          rules={[{ required: !isDev, message: `请完成${index + 1}的答案。` }]}
         >
           {
             item.type === 2 ? <Checkbox.Group>
