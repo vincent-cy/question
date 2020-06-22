@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import DATA from './data.json'
 import axios from 'axios'
 import {
-  Button, Radio, Cascader, Spin, Layout,Affix,
+  Button, Radio, Cascader, Spin, Layout,
   Checkbox, Form, Input, Col, Result, message, Row
 } from 'antd';
 import Count from './Count'
@@ -158,7 +158,7 @@ function BaseInfoCard(props) {
     setUserInfo({ ...values, address: values.address.toString() })
   };
   return <Layout>
-    <img alt='banner' width='100%' src={'https://static.poogln.com/slog.fc43e174.jpeg'} />
+    <img alt='banner' width='100%' src={'https://static.poogln.com/banner.png'} />
     <Form
       size="large"
       onFinish={onFinish}
