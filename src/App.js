@@ -9,9 +9,7 @@ import {
 import Count from './Count'
 
 const isDev = process.env.NODE_ENV === "development"
-const baseApi = isDev ? '/api' : 'http://101.200.182.153:3000/api'
-
-const date = new Date().getTime() +  8 * 60 * 1000
+const baseApi = isDev ? '/api' : 'https://api.poogln.com/api'
 
 const radioStyle = {
   display: 'block',
@@ -22,6 +20,7 @@ const radioStyle = {
 function QuestionCard(props) {
   const { setStep } = props
   const [loading, setLoading] = useState(false)
+  const [date, setDate] = useState( new Date().getTime() +  8 * 60 * 1000)
   // const [edit,setEdit] = useState(true)
   const answerObj = {}
 
@@ -118,7 +117,7 @@ function QuestionCard(props) {
               }
             </Checkbox.Group> : <Radio.Group>
                 {
-                  item.options.map(option => <Radio key={option}
+                  item.options.map(option => <Radio key={option} style={{height: 'auto'}}
                     style={radioStyle} value={option.slice(0, 1)}>{option}</Radio>)
                 }
               </Radio.Group>
@@ -159,6 +158,15 @@ function BaseInfoCard(props) {
   };
   return <Layout>
     <img alt='banner' width='100%' src={'https://static.poogln.com/banner.png'} />
+    <div>
+      <h1>竞赛规则：</h1>
+      1.答题前正确填写本人姓名、所在单位和手机号码。
+      2.本次竞赛共25道题，每道题4分，总分100分。
+      3.每人答题1次，多次答题取第1次成绩。
+      4.答题提交成功的纳入评奖统计，个人信息填写不完整的不予统计。
+      5.按照先高分后低分的总体规则确定获奖人员，分数相同的经抽奖确定。
+      6.本次活动截止时间为2020年6月30日20:00。
+    </div>
     <Form
       size="large"
       onFinish={onFinish}

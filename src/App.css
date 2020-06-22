@@ -26,6 +26,10 @@
   font-size: 16px
 }
 
+.ant-radio-wrapper {
+  height: auto !important
+}
+
 .ant-checkbox + span {
   font-size: 16px
 }
