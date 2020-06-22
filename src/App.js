@@ -157,15 +157,15 @@ function BaseInfoCard(props) {
     setUserInfo({ ...values, address: values.address.toString() })
   };
   return <Layout>
-    <img alt='banner' width='100%' src={'https://static.poogln.com/banner.png'} />
+    <img alt='banner' width='100%' src={'https://static.poogln.com/banner.jpg'} />
     <div style={{padding: 8}} >
       <h1>竞赛规则：</h1>
-      <h6>1.答题前正确填写本人姓名、所在单位和手机号码。</h6>
-      <h6>2.本次竞赛共25道题，每道题4分，总分100分。</h6>
-      <h6>3.每人答题1次，多次答题取第1次成绩。</h6>
-      <h6>4.答题提交成功的纳入评奖统计，个人信息填写不完整的不予统计。</h6>
-      <h6>5.按照先高分后低分的总体规则确定获奖人员，分数相同的经抽奖确定。</h6>
-      <h6>6.本次活动截止时间为2020年6月30日20:00。</h6>
+      <h5>1.答题前正确填写本人姓名、所在单位和手机号码。</h5>
+      <h5>2.本次竞赛共25道题，每道题4分，总分100分。</h5>
+      <h5>3.每人答题1次，多次答题取第1次成绩。</h5>
+      <h5>4.答题提交成功的纳入评奖统计，个人信息填写不完整的不予统计。</h5>
+      <h5>5.按照先高分后低分的总体规则确定获奖人员，分数相同的经抽奖确定。</h5>
+      <h5>6.本次活动截止时间为2020年6月30日20:00。</h5>
     </div>
     <Form
       size="large"
