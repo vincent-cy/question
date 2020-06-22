@@ -18,6 +18,22 @@
   height: auto;
 }
 
+.ant-form-large .ant-form-item-label > label {
+  font-size: 20px
+}
+
+.ant-checkbox + span {
+  font-size: 16px
+}
+
+.ant-checkbox + span {
+  font-size: 16px
+}
+
+.ant-form label{ 
+  font-size: 16px
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

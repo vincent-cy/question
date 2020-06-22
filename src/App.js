@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import DATA from './data.json'
 import axios from 'axios'
 import {
-  Button, Radio, Cascader, Spin, Layout,
+  Button, Radio, Cascader, Spin, Layout,Affix,
   Checkbox, Form, Input, Col, Result, message, Row
 } from 'antd';
+import Count from './Count'
 
 const isDev = process.env.NODE_ENV === "development"
 const baseApi = isDev ? '/api' : 'http://101.200.182.153:3000/api'
+
+const date = new Date().getTime() +  8 * 60 * 1000
 
 const radioStyle = {
   display: 'block',
@@ -19,37 +22,67 @@ const radioStyle = {
 function QuestionCard(props) {
   const { setStep } = props
   const [loading, setLoading] = useState(false)
-  const onFinish = values => {
+  // const [edit,setEdit] = useState(true)
+  const answerObj = {}
+
+  function onFinishFailed ({errorFields}){
+    if(errorFields.length){
+      message.error(`请完成${errorFields[0].errors.toString()}`)
+    }
+  }
+
+  const onFieldsChange= (changedFields) => {
+    if(changedFields.length){
+      const key = changedFields[0].name[0]
+      answerObj[key] = changedFields[0].value
+    }
+  }
+
+
+  const onEnd = () => {
+    message.success('答题时间到，自动提交答案中....');
+    setTimeout(() =>{
+      submit(answerObj)
+    },2000)
+  }
+
+
+  function submit  (v){
     if(loading) return 
     setLoading(true)
-    console.log('props', props)
-    setTimeout(() => {
+    axios({
+      method: 'post',
+      url: `${baseApi}/a/answer`,
+      data: {
+        ...props.useInfo,
+        answer: v
+      }
+    }).then(res => {
       setLoading(false)
-    },2000)
-    // axios({
-    //   method: 'post',
-    //   url: `${baseApi}/a/answer`,
-    //   data: {
-    //     ...props.useInfo,
-    //     answer: values
-    //   }
-    // }).then(res => {
-    //   setLoading(false)
-    //   setStep(2)
-    // }).catch(err => {
-    //   setLoading(false)
-    //   message.error('提交错误，请重新提交');
-    // })
+      setStep(2)
+    }).catch(err => {
+      setLoading(false)
+      message.error('提交错误，请重新提交');
+    })
+  }
+
+  const onFinish = values => {
+    submit(values)
   };
 
   return <Form
     size="large"
     onFinish={onFinish}
+    onFieldsChange={onFieldsChange}
+    onFinishFailed={onFinishFailed}
     wrapperCol={{
       span: 24,
     }}
     layout="vertical"
   >
+    <div style={{height: 60}} >
+
+    </div>
     {
       DATA.questions.map((item, index) => {
         let type = ''
@@ -101,8 +134,20 @@ function QuestionCard(props) {
           提交答案
         </Button>
       </div>
-    </Form.Item>
+    </Form.Item>  
     <Spin spinning={loading} delay={500}></Spin>
+      <Count
+        onEnd={onEnd}
+        style={{
+          color: 'white',
+          display:'block',
+          position: 'fixed',
+          textAlign: 'center',
+          justifyContent: 'center',
+          right: 20, top: 20,
+          padding: 10,
+          borderRadius: 20, 
+          backgroundColor: '#1890ff'}} target={date} />
   </Form>
 }
 
@@ -173,7 +218,7 @@ function App() {
       Component = QuestionCard
       break
     case 2:
-      Component = Result.bind(null, { status: 'success', title: "提交数据成功！" })
+      Component = Result.bind(null, { status: 'success', title: "恭喜 参与答题成功！" })
 
       break
     default:
@@ -187,7 +232,7 @@ function App() {
         <Component setUserInfo={setUserInfo} useInfo={useInfo} setStep={setStep} />
         <Col flex={4}></Col>
       </Row>
-
+      
     </div>
   );
 }
